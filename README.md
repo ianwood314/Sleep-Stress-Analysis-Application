@@ -4,7 +4,6 @@ Provide a basic description of the repository
 
 ## Table of Contents
 
-
 [Description of Data](#description-of-data) <br >
 [Scripts](#scripts) <br >
 [How to Build Your Own Image](#how-to-build-your-own-image) <br >
@@ -15,9 +14,12 @@ Provide a basic description of the repository
 
 ## Description of Data
 
+Provide a basic description of the data, the variables, the units, and where the data was sourced.
 
 ## Scripts
-
+- `flask_api.py`:
+- `jobs.py`:
+- `worker.py`:
 
 ## How to Build Your Own Image
 
