@@ -1,10 +1,10 @@
 NSPACE="ianwood"
-APP="mldata"
-VER="0.1"
-RPORT="6441"
-FPORT="5041"
-UID="827385"
-GID="815499"
+APP="human-sleep-stress-analysis"
+VER="1.0"
+RPORT="6438"
+FPORT="5038"
+UID="876585"
+GID="816966"
 
 list-targets:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
