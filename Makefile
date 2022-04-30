@@ -33,7 +33,7 @@ build-api:
                      -f docker/Dockerfile.api \
                      ./
 push:
-	docker push ${NAME}/${APP}-api:${VER}
+	docker push ${NSPACE}/${APP}-api:${VER}
 
 build-wrk:
 	docker build -t ${NSPACE}/${APP}-wrk:${VER} \
