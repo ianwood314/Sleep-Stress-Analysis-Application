@@ -1,1 +1,30 @@
-
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-prod-db-deployment
+  labels:
+    username: ianwood
+    env: prod
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: app-prod-db-deployment
+  template:
+    metadata:
+      labels:
+        app: app-prod-db-deployment
+        username: ianwood
+        env: prod
+    spec:
+      containers:
+        - name: app-prod-db-pod
+          image: redis:6
+          volumeMounts:
+            - name: app-prod-db-pvc
+              mountPath: "/data"
+      volumes:
+        - name: app-prod-db-pvc
+          persistentVolumeClaim:
+            claimName: app-prod-db-pvc
