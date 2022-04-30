@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: app-prod-api-pod
-          image: ianwood314/human-sleep-stress-analysis:1.0
+          image: ianwood314/human-sleep-stress-analysis-api:1.0
           imagePullPolicy: Always
           env:
             - name: REDIS_IP
