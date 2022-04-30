@@ -7,4 +7,4 @@ RUN pip3 install -r /app/requirements.txt
 COPY . /app
 
 ENTRYPOINT ["python"]
-CMD ["./arc/flask_api.py"]
+CMD ["./src/flask_api.py"]
