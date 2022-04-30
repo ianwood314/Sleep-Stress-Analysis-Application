@@ -16,7 +16,7 @@ deploy-prod:
 	kubectl apply -f ./kubernetes/prod/app-prod-api-deployment.yml
 	kubectl apply -f ./kubernetes/prod/app-prod-api-service.yml
 	
-delete-prod
+delete-prod:
 	kubectl delete deployments app-prod-api-deployment app-prod-db-deployment
 	kubectl delete services app-prod-api-service app-prod-db-service
 
