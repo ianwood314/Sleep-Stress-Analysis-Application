@@ -22,6 +22,8 @@ build-api:
 	docker build -t ${NSPACE}/${APP}-api:${VER} \
                      -f docker/Dockerfile.api \
                      ./
+push:
+	docker push ${NAME}/${APP}-api:${VER}
 
 build-wrk:
 	docker build -t ${NSPACE}/${APP}-wrk:${VER} \
