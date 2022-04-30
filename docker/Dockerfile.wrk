@@ -7,5 +7,5 @@ RUN pip3 install -r /app/requirements.txt
 COPY . /app
 
 ENTRYPOINT ["python"]
-CMD ["./src/worker.py"]
+CMD ["app/src/worker.py"]
 
