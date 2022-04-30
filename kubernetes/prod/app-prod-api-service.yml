@@ -11,6 +11,6 @@ spec:
   selector:
     app: app-prod-api-deployment
   ports:
-  - name: app-prod-api-service-rport
+  - name: app-prod-api-service-fport
     port: 5000
     targetPort: 5000
