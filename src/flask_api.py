@@ -23,6 +23,12 @@ def hello_world():
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
 
+@app.route('/get/<dataset>', methods=['POST'])
+def get_dataset():
+    """
+    API route to retrieve a specific collumn of data. This route accepts any string that matches one of the data columns. 
+    """
+
 '''
 ROUTE IDEAS
 
