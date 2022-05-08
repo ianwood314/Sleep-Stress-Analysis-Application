@@ -1,6 +1,8 @@
 # api.py
 
 from flask import Flask
+import pandas as pd
+from flask_jsonpify import jsonpify
 
 app = Flask(__name__)
 
@@ -23,17 +25,13 @@ def hello_world():
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
 
-@app.route('/upload', methods=['POST'])
+@app.route('/upload-data', methods=['POST'])
 def post_dataset():
-    with open("test_data.csv") as f:
-        data = csv.DictReader(f)
-        data_dict = {}
-        for i in data:
-            for j, k in i.items():
-                data_dict.setdefault(j, [])
-                data_dict[j].append(k)
-
-    return data_dict
+    data = pd.read_csv ('test_data.csv')
+    df_list = data.values.tolist()
+    JSONP_data = jsonpify(df_list)
+    
+    return JSONP_data
 '''
 ROUTE IDEAS
 
