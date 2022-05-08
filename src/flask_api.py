@@ -24,7 +24,7 @@ def hello_world():
 @app.route('/upload-data', methods=['POST'])
 def post_dataset():
     global data
-    data = pd.read_csv('./src/SaYoPillow-2.csv)
+    data = pd.read_csv('./src/SaYoPillow-2.csv')
     
     return str(data.iat[0,0])
 
