@@ -26,7 +26,7 @@ def post_dataset():
     global data
     data = pd.read_csv('./src/test_data.xlsx')
     
-    return data['sr'].values[0]
+    return str(data['sr'].values[0])
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
