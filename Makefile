@@ -9,11 +9,7 @@ GID="816966"
 list-targets:
 	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
-dev:
-	git pull
-	clean-api
-	build-api
-	run-api
+dev: git pull clean-api build-api run-api
 
 deploy-prod:
 	kubectl apply -f ./kubernetes/prod/app-prod-db-pvc.yml
