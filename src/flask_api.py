@@ -26,7 +26,7 @@ def post_dataset():
     '''
     data = pd.read_csv ('test_data.csv')
     '''
-    return 'New endpoint'
+    return 'New endpoint\n'
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
