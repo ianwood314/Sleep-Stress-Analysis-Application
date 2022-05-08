@@ -1,10 +1,10 @@
 import uuid, os
-from hotqueue import HotQueue
-from redis import Redis
+import hotqueue
+import redis
 
 redis_ip = os.environ.get('REDIS_IP')
-q = HotQueue("queue", host=redis_ip, port=6379, db=1)
-rd = Redis(host=redis_ip, port=6379, db=0)
+q = hotqueue.HotQueue("queue", host=redis_ip, port=6379, db=1)
+rd = redis.Redis(host=redis_ip, port=6379, db=0)
 
 def generate_jid():
     """
