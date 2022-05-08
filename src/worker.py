@@ -1,6 +1,8 @@
 from jobs import q, update_job_status
 
-@<...>   # fill in
+q = HotQueue("Queue", host=REDIS_IP, port=6379, db=1)
+
+@q.worker
 def execute_job(jid):
     """
     Retrieve a job id from the task queue and execute the job.
