@@ -4,7 +4,7 @@ from redis import Redis
 
 redis_ip = os.environ.get('REDIS_IP')
 q = HotQueue("queue", host=redis_ip, port=6379, db=1)
-rd = redis.StrictRedis(host=redis_ip, port=6379, db=0)
+rd = redis.Redis(host=redis_ip, port=6379, db=0)
 
 def generate_jid():
     """
