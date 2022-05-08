@@ -24,7 +24,7 @@ def hello_world():
 @app.route('/upload-data', methods=['POST'])
 def post_dataset():
     global data
-    data = pd.read_csv('test_data.xlsx')
+    data = pd.read_csv('/home/ianwood/sp22/coe-332/final/final-project/test_data.xlsx')
     
     return data['sr'].values[0]
 
