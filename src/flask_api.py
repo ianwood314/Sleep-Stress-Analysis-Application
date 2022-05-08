@@ -2,7 +2,6 @@
 
 from flask import Flask
 import pandas as pd
-from flask_jsonpify import jsonpify
 
 app = Flask(__name__)
 
@@ -26,10 +25,6 @@ def hello_world():
 def post_dataset():
     '''
     data = pd.read_csv ('test_data.csv')
-    df_list = data.values.tolist()
-    JSONP_data = jsonpify(df_list)
-    
-    return JSONP_data
     '''
     return 'New endpoint'
 
