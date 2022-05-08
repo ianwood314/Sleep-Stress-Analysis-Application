@@ -1,6 +1,6 @@
 # api.py
 
-from flask import Flask
+from flask import Flask, request, jsonify
 import pandas as pd
 
 app = Flask(__name__)
@@ -21,15 +21,24 @@ def jobs_api():
 def hello_world():
     return 'Hello World\n'
 
-@app.route('/upload-data', methods=['POST'])
-def post_dataset():
-    global data
+@app.route('/uploadData', methods=['GET','POST'])
+def upload_dataset():
+    global data 
     data = pd.read_csv('./src/SaYoPillow-2.csv')
+    data_json = data.to_json(orient='columns')
     
-    return str(data.iat[0,0])
+    if request.method == 'GET':
+        return(data_json)
+    elif request.method == 'POST':
+        return str(data.iat[0,0])
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+@app.route('/getInfo', methods=['GET'])
+def get_dataset_info():
+    return f"Columns in Dataset:\n  {' '.join(list(data.columns))}\n"
+
+@app.route('/calcAvg-<col>', methods=['GET'])
+def calc_col_avg(col):
+    return f'The average of {col} is {data[col].mean()}\n' 
 
 '''
 ROUTE IDEAS

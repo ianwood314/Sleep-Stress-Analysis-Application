@@ -26,6 +26,11 @@ list:
 	docker ps -a | grep ${NSPACE} || true
 	docker images | grep ${NSPACE} || true
 
+start-flask:
+	export FLASK_APP=./src/flask_api.py
+	export FLASK_ENV=development
+	flask run -p ${FPORT}
+
 git-pull:
 	git pull
 
