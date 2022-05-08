@@ -23,10 +23,10 @@ def hello_world():
 
 @app.route('/upload-data', methods=['POST'])
 def post_dataset():
-    '''
-    data = pd.read_csv ('test_data.csv')
-    '''
-    return 'New endpoint\n'
+    global data
+    data = pd.read_csv('test_data.csv')
+    
+    return data['sr'].values[0]
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
