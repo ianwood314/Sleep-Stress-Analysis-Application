@@ -22,16 +22,20 @@ def jobs_api():
 def hello_world():
     return 'Hello World\n'
 
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
-
 @app.route('/upload-data', methods=['POST'])
 def post_dataset():
+    '''
     data = pd.read_csv ('test_data.csv')
     df_list = data.values.tolist()
     JSONP_data = jsonpify(df_list)
     
     return JSONP_data
+    '''
+    return 'New endpoint'
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
+
 '''
 ROUTE IDEAS
 
