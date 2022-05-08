@@ -68,8 +68,6 @@ ROUTE IDEAS
 /getErrors
 -Returns logging errors
 
-/set
-
 
 Should we have a system of plotting using matplotlib? It would look very nice
 for data analysis.
