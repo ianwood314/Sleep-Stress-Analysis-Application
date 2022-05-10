@@ -2,20 +2,23 @@
 
 from flask import Flask, request, jsonify
 import pandas as pd
+import json
+import jobs
 
 app = Flask(__name__)
 
-@app.route('/jobs', methods=['POST'])
+@app.route('/requestJob', methods=['POST'])
 def jobs_api():
-      """
-      API route for creating a new job to do some analysis. This route accepts a JSON payload
-      describing the job to be created.
-      """
-      try:
-          job = request.get_json(force=True)
-      except Exception as e:
-          return True, json.dumps({'status': "Error", 'message': 'Invalid JSON: {}.'.format(e)})
-      return json.dumps(jobs.add_job(job['start'], job['end']))
+    """
+    API route for creating a new job to do some analysis. This route accepts a JSON payload   
+    describing the job to be created.
+    """
+     
+    try:
+        job = request.get_json(force=True)
+    except Exception as e:
+        return True, json.dumps({'status': "Error", 'message': 'Invalid JSON: {}.'.format(e)})
+    return json.dumps(jobs.add_job(job['start'], job['end']))
 
 @app.route('/test', methods=['GET'])
 def hello_world():
@@ -26,11 +29,12 @@ def upload_dataset():
     global data 
     data = pd.read_csv('./src/SaYoPillow-2.csv')
     data_json = data.to_json(orient='columns')
+    data_json = json.loads(data_json)
     
-    if request.method == 'GET':
-        return(data_json)
+    if request.method == 'GET':    
+        return jsonify(data_json)
     elif request.method == 'POST':
-        return str(data.iat[0,0])
+        return '---- Data Uploaded Successfully ----\n'
 
 @app.route('/getInfo', methods=['GET'])
 def get_dataset_info():

@@ -1,6 +1,7 @@
 from jobs import q, update_job_status
 
-q = HotQueue("Queue", host=REDIS_IP, port=6379, db=1)
+redis_ip = os.environ.get('REDIS_IP')
+q = HotQueue("Queue", host=redis_ip, port=6379, db=1)
 
 @q.worker
 def execute_job(jid):
