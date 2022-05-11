@@ -68,10 +68,10 @@ run-api: build-api
                    -d \
                    ${NSPACE}/${APP}-api:${VER} 
 
-run-wrk: build-wrk
+run-wrk: # build-wrk
 	RIP=$$(docker inspect ${NSPACE}-db | grep \"IPAddress\" | head -n1 | awk -F\" '{print $$4}') && \
 	docker run --name ${NSPACE}-wrk \
-                   --env REDIS_IP=${RIP} \
+                   --env REDIS_IP=172.17.0.34 \
                    -d \
                    ${NSPACE}/${APP}-wrk:${VER} 
 

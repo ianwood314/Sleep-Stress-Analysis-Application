@@ -1,8 +1,10 @@
 from jobs import q, update_job_status
+import hotqueue
+import os
 import time
 
 redis_ip = os.environ.get('REDIS_IP')
-q = HotQueue("Queue", host=redis_ip, port=6379, db=1)
+q = hotqueue.HotQueue("Queue", host=redis_ip, port=6379, db=1)
 
 @q.worker
 def execute_job(jid):

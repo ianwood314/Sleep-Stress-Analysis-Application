@@ -55,6 +55,9 @@ def calc_col_avg(col):
     jobs.add_job(jobpayload, current_time(), "NA")
     return f'The average of {col} is {data[col].mean()}\n' 
 
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
+
 '''
 ROUTE IDEAS
 
