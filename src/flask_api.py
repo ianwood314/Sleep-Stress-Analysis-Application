@@ -4,7 +4,7 @@ from flask import Flask, request, jsonify
 import pandas as pd
 import json
 from datetime import datetime
-import jobs
+from jobs import rd, q, add_job, get_job_by_id
 
 app = Flask(__name__)
 
@@ -23,7 +23,7 @@ def jobs_api():
         job = request.get_json(force=True)
     except Exception as e:
         return True, json.dumps({'status': "Error", 'message': 'Invalid JSON: {}.'.format(e)})
-    return json.dumps(jobs.add_job(job['start'], job['end']))
+    return json.dumps(add_job(job['start'], job['end']))
 
 @app.route('/test', methods=['GET'])
 def hello_world():
@@ -43,7 +43,7 @@ n the dataset\n"
 
 @app.route('/uploadData', methods=['GET','POST'])
 def upload_dataset():
-    global data 
+    global data
     data = pd.read_csv('./src/SaYoPillow-2.csv')
     data_json = data.to_json(orient='columns')
     data_json = json.loads(data_json)
@@ -51,7 +51,9 @@ def upload_dataset():
     if request.method == 'GET':    
         return jsonify(data_json)
     elif request.method == 'POST':
-        return '---- Data Uploaded Successfully ----\n'
+        rd.flushdb()
+        rd.set('data', json.dumps(data_json))
+        return '---- Data Uploaded Successfully to Redis ----\n'
 
 @app.route('/getInfo', methods=['GET'])
 def get_dataset_info():
@@ -61,11 +63,11 @@ def get_dataset_info():
 def calc_col_avg(col):
     jobpayload = {'jobpayload': {
                     'jobtype': 'calcAvg',
-                    'column': col
+                    'input': col
                     }
                  }
-    jobs.add_job(jobpayload, current_time(), "NA")
-    return f'The average of {col} is {data[col].mean()}\n' 
+    add_job(jobpayload, current_time(), "NA")
+    return 'idk king'
 
 @app.route('/getInfo/column/<col>', methods=['GET'])
 def get_col_info(col):
