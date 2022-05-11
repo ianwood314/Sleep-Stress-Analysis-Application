@@ -94,4 +94,4 @@ run-all: run-db run-api run-wrk
 clean-all: clean-db clean-api clean-wrk
 
 
-all: clean-all build-all run-al
+all: clean-all build-all run-all
