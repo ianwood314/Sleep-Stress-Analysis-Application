@@ -29,6 +29,18 @@ def jobs_api():
 def hello_world():
     return 'Hello World\n'
 
+@app.route('/getInfo/routes', methods=['GET'])
+def get_routes_info():
+    return f"~jobs -- creating a new job to do some analysis\n~uploadData -- do\
+wnload data from the csv file\n~getInfo -- return column names\n~getInfo/all --\
+ return whole dataset\n~getInfo/row/<row> -- return data for specific row\n~get\
+Info/column/<col> -- return data for specific column\n~getInfo/<col>/highest --\
+ return highest values in specific column\n~getInfo/<col>/lowest -- return lowe\
+st value in specific column\n~getInfo/<row>/<col> -- return value in specific r\
+ow and column\n~getLoc/<col>/<value> -- return the postions of specific value i\
+n the dataset\n"
+
+
 @app.route('/uploadData', methods=['GET','POST'])
 def upload_dataset():
     global data 
@@ -55,9 +67,53 @@ def calc_col_avg(col):
     jobs.add_job(jobpayload, current_time(), "NA")
     return f'The average of {col} is {data[col].mean()}\n' 
 
+@app.route('/getInfo/column/<col>', methods=['GET'])
+def get_col_info(col):
+      return f"{col} column in Dataset:\n  {''.join(list(data[col]))}\n"
+
+@app.route('/getInfo/all', methods=['GET'])
+def get_all_info():
+    # data.iat[0,0]
+    return f"{data}\n"
+
+@app.route('/getInfo/row/<row>',methods=['GET'])
+def get_row_info(row):
+    row = int(row)
+    return f"{data.iloc[row]}\n"
+
+@app.route('/getInfo/<col>/highest', methods=['GET'])
+def get_col_highest(col):
+      max = 0
+      for i in range(len(data[col])):
+            if data[col].iloc[i] >= max:
+                  max  = data[col].iloc[i]
+      return f"The highest data in {col} values is {max}\n"
+
+@app.route('/getInfo/<col>/lowest', methods=['GET'])
+def get_col_lowest(col):
+      min = 0
+      for i in range(len(data[col])):
+            if data[col].iloc[i] <= min:
+                  min  = data[col].iloc[i]
+      return f"The lowest data in {col} values is {min}\n"
+
+@app.route('/getInfo/<row>/<col>', methods=['GET'])
+def get_data_value(row, col):
+    row = int(row)
+    return f"The value in {row} row {col} column is {data[col].iloc[row]}\n"
+
+@app.route('/getLoc/<col>/<value>', methods=['GET'])
+def get_value_position(col, value):
+    position = []
+    value = float(value)
+    for i in range(len(data[col])):
+        if(value == data[col].iloc[i]):
+            position.append(i)
+    return f"The position content {value} value are {list(position)}\n"
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
-
+    
 '''
 ROUTE IDEAS
 
