@@ -3,10 +3,14 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 import json
-import time
+from datetime import datetime
 import jobs
 
 app = Flask(__name__)
+
+def current_time():
+    now = datetime.now()
+    return now.strftime('%d/%m/%Y %H:%M:%S')
 
 @app.route('/jobs', methods=['POST'])
 def jobs_api():
@@ -43,12 +47,12 @@ def get_dataset_info():
 
 @app.route('/calcAvg-<col>', methods=['GET'])
 def calc_col_avg(col):
-    jobpayload = {'jobpayload': [
+    jobpayload = {'jobpayload': {
                     'jobtype': 'calcAvg',
                     'col': col
-                    ]
+                    }
                  }
-    add_job(jobpayload)
+    jobs.add_job(jobpayload, current_time(), "NA")
     return f'The average of {col} is {data[col].mean()}\n' 
 
 '''
