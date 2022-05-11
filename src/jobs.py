@@ -4,8 +4,9 @@ import redis
 import json
 
 redis_ip = os.environ.get('REDIS_IP')
-q = hotqueue.HotQueue("queue", host=redis_ip, port=6379, db=1)
 rd = redis.Redis(host=redis_ip, port=6379, db=0)
+q = hotqueue.HotQueue("queue", host=redis_ip, port=6379, db=1)
+jdb = redis.Redis(host=redis_ip, port=6379, db=2, decode_responses=True)
 
 def generate_jid():
     """
@@ -43,7 +44,7 @@ def instantiate_job(jid, status, start, end):
 
 def _save_job(job_key, job_dict):
     """Save a job object in the Redis database."""
-    rd.set(job_key, json.dumps(job_dict))
+    jdb.hset(job_key, mapping=job_dict)
 
 def _queue_job(jid):
     """Add a job to the redis queue."""
@@ -57,6 +58,10 @@ def add_job(jobpayload, start, end, status="submitted"):
     _save_job(_generate_job_key(jid), job_dict)
     _queue_job(jid)
     return job_dict
+
+def get_job_by_id(jid):
+    """Return job dictionary given jid"""
+    return (jdb.hgetall(_generate_job_key(jid).encode('utf-8')))
 
 def update_job_status(jid, status):
     """Update the status of job with job id `jid` to status `status`."""
