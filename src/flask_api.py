@@ -2,7 +2,7 @@
 
 from flask import Flask, request, jsonify
 import pandas as pd
-import json
+import json, statistics
 from datetime import datetime
 from jobs import rd, q, add_job, get_job_by_id
 
