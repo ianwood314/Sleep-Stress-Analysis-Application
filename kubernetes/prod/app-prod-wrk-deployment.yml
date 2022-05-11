@@ -24,7 +24,7 @@ spec:
           imagePullPolicy: Always
           env:
             - name: REDIS_IP
-              value: 10.105.151.67
+              value: 10.109.224.160
           ports:
             - name: http
               containerPort: 5000
