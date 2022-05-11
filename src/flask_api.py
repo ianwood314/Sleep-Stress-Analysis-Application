@@ -38,7 +38,8 @@ Info/column/<col> -- return data for specific column\n~getInfo/<col>/highest --\
  return highest values in specific column\n~getInfo/<col>/lowest -- return lowe\
 st value in specific column\n~getInfo/<row>/<col> -- return value in specific r\
 ow and column\n~getLoc/<col>/<value> -- return the postions of specific value i\
-n the dataset\n"
+n the dataset\n~calcVar/column -- calculate the variance of specific column dat\
+a values\n"
 
 
 @app.route('/uploadData', methods=['GET','POST'])
@@ -112,6 +113,19 @@ def get_value_position(col, value):
         if(value == data[col].iloc[i]):
             position.append(i)
     return f"The position content {value} value are {list(position)}\n"
+
+@app.route('/calcVar/<col>', methods=['GET'])
+def cal_col_var(col):
+    '''
+    jobpayload = {'jobpayload': {
+                    'jobtype': 'calcVar',
+                    'column': col
+                    }
+                 }
+    jobs.add_job(jobpayload, current_time(), "NA")
+    '''
+    return f'The variance of {col} is {statistics.variance(data[col])}\n'
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
