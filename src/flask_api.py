@@ -4,9 +4,13 @@ from flask import Flask, request, jsonify
 import pandas as pd
 import json, statistics
 from datetime import datetime
-from jobs import rd, q, add_job, get_job_by_id
+from jobs import add_job, get_job_by_id
 
 app = Flask(__name__)
+redis_ip = os.environ.get('REDIS_IP')
+rd = redis.Redis(host=redis_ip, port=6379, db=0)
+q = hotqueue.HotQueue("queue", host=redis_ip, port=6379, db=1)
+jdb = redis.Redis(host=redis_ip, port=6379, db=2, decode_responses=True)
 
 def current_time():
     now = datetime.now()
