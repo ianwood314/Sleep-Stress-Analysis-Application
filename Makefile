@@ -43,6 +43,7 @@ build-api:
                      ./
 push:
 	docker push ${NSPACE}/${APP}-api:${VER}
+	docker push ${NSPACE}/${APP}-wrk:${VER}
 
 build-wrk:
 	docker build -t ${NSPACE}/${APP}-wrk:${VER} \
