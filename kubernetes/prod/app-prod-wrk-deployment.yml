@@ -1,1 +1,30 @@
-
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-prod-wrk-deployment
+  labels:
+    username: ianwood
+    env: prod
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app-prod-wrk-deployment
+  template:
+    metadata:
+      labels:
+        app: app-prod-wrk-deployment
+        username: ianwood
+        env: prod
+    spec:
+      containers:
+        - name: app-prod-wrk-pod
+          image: ianwood314/human-sleep-stress-analysis-wrk:1.0
+          imagePullPolicy: Always
+          env:
+            - name: REDIS_IP
+              value: 10.105.151.67
+          ports:
+            - name: http
+              containerPort: 5000
