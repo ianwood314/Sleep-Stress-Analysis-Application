@@ -45,11 +45,11 @@ def upload_dataset():
 def get_dataset_info():
     return f"Columns in Dataset:\n  {' '.join(list(data.columns))}\n"
 
-@app.route('/calcAvg-<col>', methods=['GET'])
+@app.route('/calcAvg/<col>', methods=['GET'])
 def calc_col_avg(col):
     jobpayload = {'jobpayload': {
                     'jobtype': 'calcAvg',
-                    'col': col
+                    'column': col
                     }
                  }
     jobs.add_job(jobpayload, current_time(), "NA")
