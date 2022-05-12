@@ -1,6 +1,6 @@
 # Sleep-Stress Analysis Application
 
-This application analyzes the relationship between various sleep parameters and stress level. These various sleep parameters include, snoring range, respiration rate, body temperature, limb movement, and more. Specifically, this application allows the user to query the value of various parameters in a row and/or column, calculate single variable statistics for parameters, and plot two parameters on a graph and calculate their correlation. A more in depth description of each sleep parameter is available in the [Description of Parameters](#description-of-parameters) section. 
+This application analyzes the relationship between various sleep parameters and stress level. These various sleep parameters include, snoring rate, respiration rate, body temperature, limb movement, and more. Specifically, this application allows the user to query the value of various parameters in a row and/or column, calculate single variable statistics for parameters, and plot two parameters on a graph and calculate their correlation. A more in depth description of each sleep parameter is available in the [Description of Parameters](#description-of-parameters) section. 
 
 The data analyzed in this application was collected from [this website](https://www.kaggle.com/datasets/laavanya/human-stress-detection-in-and-through-sleep).
 
@@ -35,13 +35,9 @@ Rachakonda, S. P. Mohanty, E. Kougianos, K. Karunakaran, and M. Ganapathiraju, â
 | Stress Level | measured on a scale from 1-5 (0 - low/normal, 1 â€“ medium low, 2 - medium, 3 - medium high, 4 - high) |
 
 ## Description of Scripts
-- `flask_api.py`: 
-- `jobs.py`:
-- `worker.py`:
-
-## How to Build Your Own Image
-
-
+- `flask_api.py`: contains the various routes for the user to query
+- `jobs.py`: creates jobs and posts them to the queue
+- `worker.py`: retrieves jobs from the queue and processes them accordingly
 
 ## Deploy the Application to Kubernetes
 
