@@ -185,7 +185,14 @@ def cal_col_var(col):
                  }
     jobs.add_job(jobpayload, current_time(), "NA")
     '''
-    return f'The variance of {col} is {statistics.variance(data[col])}\n'
+    colData = []
+    for key in rd.keys():
+        if key.decode('utf-8') == col:
+            colList = json.loads(rd.get(key).decode('utf-8'))
+            for i in colList:
+                colData.append(float(colList[i]))
+    return f'The variance of {col} is {statistics.variance(colData)}\n'
+
 
 
 if __name__ == '__main__':
