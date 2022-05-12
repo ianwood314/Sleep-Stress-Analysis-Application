@@ -203,6 +203,17 @@ at,sl:float):
             rd.set(item,json.dumps(newRow))
     return f'The new row of data has been created\n'
 
+@app.route('/update/<row>/<col>/<new_val>', methods=['PUT'])
+def update_data(row,col,new_val):
+    for key in rd.keys():
+        if key.decode('utf-8') == col:
+            colList = json.loads(rd.get(key).decode('utf-8'))
+            for item in colList:
+                if item == str(row):
+                    colList[row] = new_val
+                    rd.set(key, json.dumps(colList))
+    return f'The new variable has been updateded to the specific column\n'
+
 @app.route('/delete', methods=['DELETE'])
 def delete_data():
     for key in rd.keys():
