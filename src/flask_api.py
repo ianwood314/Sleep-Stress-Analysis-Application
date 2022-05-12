@@ -193,7 +193,11 @@ def cal_col_var(col):
                 colData.append(float(colList[i]))
     return f'The variance of {col} is {statistics.variance(colData)}\n'
 
-
+@app.route('/delete', methods=['DELETE'])
+def delete_data():
+    for key in rd.keys():
+        rd.delete(key)
+    return f'All data for in the dataset has been deleted.\n'
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
