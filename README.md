@@ -215,12 +215,96 @@ The following sections display an example command and the resulting output. Reme
 ### List of routes for you to easily jump to:
 
 [/getInfo](#getinfo) <br >
+[/getInfo/column/\<col>](#getinfocolumncol) <br >
+[/getInfo/\<row>/\<col>](#getinforowcol) <br >
+[/getInfo/\<col>/highest](#getinfocolhighest) <br >
+[/getInfo/\<col>/lowest](#getinfocollowest) <br >
+[/calcAvg/\<col>](#calcavgcol) <br >
+[/calcVar/\<col>](#calcvarcol) <br >
 
 ### /getInfo
 **Example Command:** `curl 10.100.224.72:5000/getInfo` <br >
 
 **Example Output:**
+```
+Columns in Dataset:
+  ['t', 'rr', 'sr', 'sr.1', 'lm', 'sl', 'bo', 'hr', 'rem']
+```
 
+From the example output above, we can see a list of the various sleep parameters available in this dataset. 
 
-## Test the Software System using Pytest
+Link for you to go back to the [list of routes](#list-of-routes-for-you-to-easily-jump-to) <br >
 
+### /getInfo/column/\<col>
+**Example Command:** `curl 10.100.224.72:5000/getInfo/column/t` <br >
+
+**Example Output:**
+```
+t column in Dataset:
+  {'0': 91.84, '1': 91.552, '2': 96.0, '3': 90.768, '4': 97.872, '5': 95.376, '6': 97.2, '7': 99.0, '8': 96.168, '9': 95.104,
+...
+```
+
+Here, we can see an output in JSON format where the key is the row number and the value is the value associated with a column, in this case t, and a row. 
+
+Link for you to go back to the [list of routes](#list-of-routes-for-you-to-easily-jump-to) <br >
+
+### /getInfo/\<row>/\<col>
+**Example Command:** `curl 10.100.224.72:5000/getInfo/3/t` <br >
+
+**Example Output:**
+```
+The value in 3 row t column is 90.768
+```
+
+From the example output above, we can see the row and column clearly labeled as 3 and t, respectively, and the value of that row and column being 90.768. 
+
+Link for you to go back to the [list of routes](#list-of-routes-for-you-to-easily-jump-to) <br >
+
+### /getInfo/\<col>/highest
+**Example Command:** `curl 10.98.133.11:5000/getInfo/t/highest` <br >
+
+**Example Output:**
+```
+The highest data in t values is 99.0
+```
+
+From the example output above, we can see that the maximum value of column t was 99.0.
+
+Link for you to go back to the [list of routes](#list-of-routes-for-you-to-easily-jump-to) <br >
+
+### /getInfo/\<col>/lowest
+**Example Command:** `curl 10.100.224.72:5000/getInfo/t/lowest` <br >
+
+**Example Output:**
+```
+The lowest data in t values is 0
+```
+
+From the example output above, we can see that the minimum value of column t was zero.
+
+Link for you to go back to the [list of routes](#list-of-routes-for-you-to-easily-jump-to) <br >
+
+### /calcAvg/\<col>
+**Example Command:** `curl 10.100.224.72:5000/calcAvg/t` <br >
+
+**Example Output:**
+```
+The average of t is 92.80
+```
+
+From the example output above, we can see the column clearly labeled as column t and the average value of the column being 92.80. 
+
+Link for you to go back to the [list of routes](#list-of-routes-for-you-to-easily-jump-to) <br >
+
+### /calcVar/\<col>
+**Example Command:** `curl 10.100.224.72:5000/calcVar/t` <br >
+
+**Example Output:**
+```
+The variance of t is 12.45
+```
+
+From the example output above, we can see the column clearly labeled as column t and the variance value of the column being 12.45. 
+
+Link for you to go back to the [list of routes](#list-of-routes-for-you-to-easily-jump-to) <br >
