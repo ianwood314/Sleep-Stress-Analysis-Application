@@ -153,7 +153,7 @@ spec:
 Next, in the same directory as `deployment-python-debug.yml`, execute the following command to deploy to Kubernetes: `kubectl apply -f deployment-python-debug.yml`. Once the previous commands are executed, type `kubectl get pods` to ensure that the debug pod has been created.
 
 ```
-[ianwood@kube-2 unit-7]$ kubectl get pods
+[ianwood@kube-2 coe-332]$ kubectl get pods
 NAME                                       READY   STATUS    RESTARTS   AGE
 app-prod-api-deployment-596b558c89-8qxd2   1/1     Running   0          17h
 app-prod-api-deployment-596b558c89-zbrtd   1/1     Running   0          17h
@@ -183,12 +183,12 @@ exit
 
 ### Execute curl Commands
 
-Now that we have the Flask API Cluster-IP address and port number and the debug pod, we are finally able to start issuing `curl` commands to the Flask API. A comprehensive list of acceptable `curl` commands are provided in the following section along with a brief description of each route.
+Now that we have the Flask API Cluster-IP address and port number and the debug pod, we are finally able to start issuing `curl` commands to the Flask API. A comprehensive list of acceptable `curl` commands are provided below along with a brief description of each route.
 
 NOTE: for the section below, a Flask API Cluster-IP address of `10.100.224.72` is used and the port number of `5000` is used, but these values are subject to change from user to user.
 
 #### View a list of all the queryable routes
-  - `curl 0.100.224.72:5000/getInfo/routes`
+  - `curl 10.100.224.72:5000/getInfo/routes`
   - Once you run the command above, you should see the following output:
     ```
     ~jobs -- creating a new job to do some analysis
@@ -206,6 +206,17 @@ NOTE: for the section below, a Flask API Cluster-IP address of `10.100.224.72` i
   - Output above details how to download the data and provides a list of queryable routes
 
 ## Interpret the Results
+
+The following sections display an example command and the resulting output. Remember to first download the data before executing any of the commands below: `curl 10.100.224.72:5000/uploadData -X POST`
+
+### List of routes for you to easily jump to:
+
+[/getInfo](#getinfo) <br >
+
+### /getInfo
+**Example Command:** `curl 10.100.224.72:5000/getInfo` <br >
+
+**Example Output:**
 
 
 ## Test the Software System using Pytest
