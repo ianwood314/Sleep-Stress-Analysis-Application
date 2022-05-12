@@ -14,6 +14,7 @@ Rachakonda, S. P. Mohanty, E. Kougianos, K. Karunakaran, and M. Ganapathiraju, â
 
 [Description of Parameters](#description-of-parameters) <br >
 [Description of Scripts](#description-of-scripts) <br >
+[Diagram of Process](#diagram-of-process) <br >
 [How to Build Your Own Image](#how-to-build-your-own-image) <br >
 [Deploy the Application to Kubernetes](#deploy-the-application-to-kubernetes) <br >
 [How to Interact with the Application](#how-to-interact-with-the-application) <br >
@@ -38,6 +39,12 @@ Rachakonda, S. P. Mohanty, E. Kougianos, K. Karunakaran, and M. Ganapathiraju, â
 - `flask_api.py`: contains the various routes for the user to query
 - `jobs.py`: creates jobs and posts them to the queue
 - `worker.py`: retrieves jobs from the queue and processes them accordingly
+
+## Diagram of Process
+
+![My Image](diagram-iss-positional-and-sightings-data.png)
+
+The diagram above illustrates the cycle of the ISS Positional and Sightings Data Application. First, the user issues curl commands on their local terminal. Those commands are then sent to the class server via ssh where they are received by the Flask server. Once the server has the request, the data requested will be retrieved from the Redis database which will then be displayed on the terminal for the user to see.
 
 ## Deploy the Application to Kubernetes
 
