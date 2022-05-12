@@ -145,8 +145,7 @@ def get_col_highest(col):
              for i in range(len(colList)):
                  if float(colList.get(str(i))) >= max:
                      max  = float(colList.get(str(i)))
-    key = "The highest data in {col} values is {max}\n"
-    return json.dumps(rd.hgetall(key), indent=2)
+    return f"The highest data in {col} values is {max}\n"
 
 @app.route('/getInfo/<col>/lowest', methods=['GET'])
 def get_col_lowest(col):
@@ -157,10 +156,7 @@ def get_col_lowest(col):
              for i in range(len(colList)):
                  if float(colList.get(str(i))) <= min:
                      min  = float(colList.get(str(i)))
-      key = f"The lowest data in {col} values is {min}\n"
-      return json.dumps(rd.hgetall(key), indent=2)
-
-
+      return f"The lowest data in {col} values is {min}\n"
 
 @app.route('/getInfo/<row>/<col>', methods=['GET'])
 def get_data_value(row, col):
