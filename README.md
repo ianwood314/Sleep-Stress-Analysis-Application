@@ -31,7 +31,7 @@ Rachakonda, S. P. Mohanty, E. Kougianos, K. Karunakaran, and M. Ganapathiraju, â
 | Blood Oxygen Level | the average amount of oxygen circulating throughout the body measured as a percentage |
 | Eye Movement | the average number of eye movements for a subject during REM |
 | Sleeping Hours  | the number of hours the subject slept during the session |
-| Heart Rate  | the average heart rate measured in beats per minute (BPM) |
+| Heart Rate  | the average heart rate of the subject measured in beats per minute (BPM) |
 | Stress Level | measured on a scale from 1-5 (0 - low/normal, 1 â€“ medium low, 2 - medium, 3 - medium high, 4 - high) |
 
 ## Description of Scripts
@@ -102,7 +102,14 @@ Make a note of the Flask API Cluster-IP address and port number as these will be
 
 ## How to Interact with the Application
 
-### Find the Flask API Cluster-IP Address and Port Number
+Interacting with this application consists of three steps the user must take: 
+1. Find the Flask API Cluster-IP address and port number
+2. `exec` into a debug pod on Kubernetes, and finally 
+3. Execute `curl` commands in Kubernetes
+
+These three steps are detailed below.
+
+### Find IP Address and Port Number
 
 In order to interact with the Flask API, we first need the Flask API Cluster-IP address and port number. To get these values, the Flask API and Redis Database services must first be deployed to Kubernetes, which is described in the previous section. Once these services are deployed, we can retrieve the Flask API Cluster-IP address and port number using the `kubectl get services` command:
 
@@ -113,13 +120,56 @@ app-prod-api-service   ClusterIP   10.100.224.72    <none>        5000/TCP   28h
 app-prod-db-service    ClusterIP   10.109.224.160   <none>        6379/TCP   28h
 ```
 
-From the sample output above, we can see that the Flask API Cluster-IP address is `10.100.224.72` and the port number is `5000`. With these values, we can assemble the `curl` commands to interact with the application. Before we can execute those `curl` commands, we first need to `exec` into a debug pod on Kubernetes.
+From the sample output above, we can see that the Flask API Cluster-IP address is `10.100.224.72` and the port number is `5000`. With these values, we can assemble the `curl` commands to interact with the application. However, before we can execute those `curl` commands, we first need to `exec` into a debug pod on Kubernetes.
 
-### Run curl Commands in Kubernetes
+### Exec into Debug Pod
 
+To `exec` into a debug pod, we must first create the debug deployment. To do so we need to first create a YML file for this deployment, then deploy it to Kubernetes. To create the YML file, simply copy and paste the following contents into a new file called `deployment-python-debug.yml`.
 
+```
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: py-debug-deployment
+  labels:
+    app: py-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: py-app
+  template:
+    metadata:
+      labels:
+        app: py-app
+    spec:
+      containers:
+        - name: py39
+          image: python:3.9
+          command: ['sleep', '999999999']
+```
 
-NOTE: for the sections below, a Flask API Cluster-IP address of `10.100.224.72` is used and the port number of `5000` is used, but these values are subject to change from user to user.
+Next, in the same directory as `deployment-python-debug.yml`, execute the following command to deploy to Kubernetes: `kubectl apply -f deployment-python-debug.yml`. Once the previous commands are executed, type `kubectl get pods` to ensure that the debug pod has been created.
+
+```
+[ianwood@kube-2 unit-7]$ kubectl get pods
+NAME                                       READY   STATUS    RESTARTS   AGE
+app-prod-api-deployment-596b558c89-8qxd2   1/1     Running   0          17h
+app-prod-api-deployment-596b558c89-zbrtd   1/1     Running   0          17h
+app-prod-db-deployment-5d58998bfd-fq4lm    1/1     Running   0          29h
+app-prod-wrk-deployment-d64c679b7-bw4zz    1/1     Running   0          17h
+app-prod-wrk-deployment-d64c679b7-r8l94    1/1     Running   0          17h
+py-debug-deployment-5dfcf7bdd9-ptdxz       1/1     Running   0          34d
+```
+
+We can see from the sample output above, the debug pod `py-debug-deployment-5dfcf7bdd9-ptdxz` has successfully been created.
+
+### Execute curl Commands
+
+Now that we have the Flask API Cluster-IP address and port number and the debug pod, we are finally able to start issuing `curl` commands to the Flask API. A comprehensive list of acceptable `curl` commands are provided in the following section along with a brief description of each route.
+
+NOTE: for the section below, a Flask API Cluster-IP address of `10.100.224.72` is used and the port number of `5000` is used, but these values are subject to change from user to user.
 
 #### View a list of all the queryable routes
   - `curl 0.100.224.72:5000/getInfo/routes`
@@ -137,8 +187,7 @@ NOTE: for the sections below, a Flask API Cluster-IP address of `10.100.224.72` 
     ~getLoc/<col>/<value> -- return the postions of specific value in the dataset
     ~calcVar/column -- calculate the variance of specific column data values
     ```
-  - Output above details how to download the data and provides a list of the ten queryable routes
-
+  - Output above details how to download the data and provides a list of queryable routes
 
 ## Interpret the Results
 
