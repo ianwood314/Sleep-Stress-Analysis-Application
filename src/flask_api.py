@@ -108,7 +108,7 @@ def calc_col_avg(col):
             }
             jobs.add_job(jobpayload, current_time(), "NA")
             for i in colList:
-                total = total + float(i)
+                total = total + float(colList[i])
             avg = total/len(colList)
     key = f'The average of {col} is {avg}\n'
     return json.dumps(rd.hgetall(key), indent=2)
