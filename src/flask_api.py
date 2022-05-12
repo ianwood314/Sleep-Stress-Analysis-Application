@@ -196,6 +196,9 @@ def cal_col_var(col):
 @app.route('/create/<sr>/<rr>/<t>/<lm>/<bo>/<rem>/<sr1>/<hr>/<sl>', methods=['POST'])
 def create_new_row(sr:float,rr:float,t:float,lm:float,bo:float,rem:float,sr1:float,hr:flo\
 at,sl:float):
+    """
+    add a new row fo dataset to the redis
+    """
     newRow = {"sr":sr,"rr":rr,"t":t,"lm":lm,"bo":bo,"rem":rem,"sr1":sr1,"hr":hr,"sl":sl}
     for key in rd.keys():
       for item in newRow.keys():
@@ -205,6 +208,9 @@ at,sl:float):
 
 @app.route('/update/<row>/<col>/<new_val>', methods=['PUT'])
 def update_data(row,col,new_val):
+    """
+    change the value of 1 specific variable
+    """
     for key in rd.keys():
         if key.decode('utf-8') == col:
             colList = json.loads(rd.get(key).decode('utf-8'))
@@ -212,10 +218,13 @@ def update_data(row,col,new_val):
                 if item == str(row):
                     colList[row] = new_val
                     rd.set(key, json.dumps(colList))
-    return f'The new variable has been updateded to the specific column\n'
+    return f'The new variable in location {row} row {col} column has been up to date\n'
 
 @app.route('/delete', methods=['DELETE'])
 def delete_data():
+    """
+    delete all keys in the redis
+    """
     for key in rd.keys():
         rd.delete(key)
     return f'All data for in the dataset has been deleted.\n'
