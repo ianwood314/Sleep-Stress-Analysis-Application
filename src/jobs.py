@@ -1,10 +1,15 @@
-import uuid, os
-import hotqueue
-import redis
+from datetime import datetime
 import json
+import os
+import uuid
+from flask import Flask, request
+import redis
+import hotqueue
+from hotqueue import HotQueue
 
 redis_ip = os.environ.get('REDIS_IP')
 rd = redis.Redis(host=redis_ip, port=6379, db=0)
+img_db = redis.Redis(host=redis_ip, port=6379, db=3)
 q = hotqueue.HotQueue("queue", host=redis_ip, port=6379, db=1)
 jdb = redis.Redis(host=redis_ip, port=6379, db=2, decode_responses=True)
 
@@ -19,42 +24,51 @@ def _generate_job_key(jid):
     Generate the redis key from the job id to be used when storing, retrieving or updating
     a job in the database.
     """
-    return f'job.{jid}'
+    return 'job.{}'.format(jid)
 
-def instantiate_job(jid, status, start, end):
+def instantiate_job(jid, column1, column2, status, start, end):
     """
     Create the job object description as a python dictionary. Requires the job id, status,
     start and end parameters.
     """
-    if type(jid) == str:
-        return {'jobinfo': {
-                    'id': jid,
-                    'status': status,
-                    'start': start,
-                    'end': end
-                }
-               }
-    return {'jobinfo': {
-                'id': jid.decode('utf-8'),
-                'status': status.decode('utf-8'),
-                'start': start.decode('utf-8'),
-                'end': end.decode('utf-8')
-            }
-           }
+
+    return {
+        'id': jid,
+        'column 1': column1,
+        'column 2': column2,
+        'status': status,
+        'start': start,
+        'end': end,
+    }
+    # if type(jid) == str:
+    #     return {'jobinfo': {
+    #                 'id': jid,
+    #                 'status': status,
+    #                 'start': start,
+    #                 'end': end
+    #             }
+    #            }
+    # return {'jobinfo': {
+    #             'id': jid.decode('utf-8'),
+    #             'status': status.decode('utf-8'),
+    #             'start': start.decode('utf-8'),
+    #             'end': end.decode('utf-8')
+    #         }
+    #        }
 
 def _save_job(job_key, job_dict):
     """Save a job object in the Redis database."""
     jdb.hset(job_key, mapping=job_dict)
+    return
 
 def _queue_job(jid):
     """Add a job to the redis queue."""
     q.put(jid)
+    return
 
-def add_job(jobpayload, start, end, status="submitted"):
-    """Add a job to the redis queue."""
+def add_job(column1, column2, rowstart, rowend, status="submitted"):
     jid = generate_jid()
-    job_dict = instantiate_job(jid, status, start, end)
-    job_dict.update(jobpayload)
+    job_dict = instantiate_job(jid, column1, column2, status, rowstart, rowend)
     _save_job(_generate_job_key(jid), job_dict)
     _queue_job(jid)
     return job_dict
@@ -68,6 +82,6 @@ def update_job_status(jid, status):
     job = get_job_by_id(jid)
     if job:
         job['jobinfo']['status'] = status
-        save_job(generate_job_key(jid), job)
+        _save_job(_generate_job_key(jid), job)
     else:
         raise Exception()
