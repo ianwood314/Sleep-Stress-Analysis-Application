@@ -163,7 +163,23 @@ app-prod-wrk-deployment-d64c679b7-r8l94    1/1     Running   0          17h
 py-debug-deployment-5dfcf7bdd9-ptdxz       1/1     Running   0          34d
 ```
 
-We can see from the sample output above, the debug pod `py-debug-deployment-5dfcf7bdd9-ptdxz` has successfully been created.
+We can see from the sample output above, the debug pod `py-debug-deployment-5dfcf7bdd9-ptdxz` has successfully been created. Now to `exec` into this pod, simply execute `kubectl exec -it <name of your pod> /bin/bash`. In the case of the example above, we would execute `kubectl exec -it py-debug-deployment-5dfcf7bdd9-ptdxz /bin/bash` and recieve the following output.
+
+```
+[ianwood@kube-2 coe-332]$ kubectl exec -it py-debug-deployment-5dfcf7bdd9-ptdxz /bin/bash
+kubectl exec [POD] [COMMAND] is DEPRECATED and will be removed in a future version. Use kubectl exec [POD] -- [COMMAND] instead.
+root@py-debug-deployment-5dfcf7bdd9-ptdxz:/# 
+```
+
+Now we are in a new terminal inside the pod. From here we can execute `curl` commands as described in the following section. 
+
+NOTE: to get back to the regular terminal, simply type `exit` in the debug terminal window.
+
+```
+root@py-debug-deployment-5dfcf7bdd9-ptdxz:/# exit
+exit
+[ianwood@kube-2 coe-332]$ 
+```
 
 ### Execute curl Commands
 
