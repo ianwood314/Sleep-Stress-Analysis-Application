@@ -110,8 +110,7 @@ def calc_col_avg(col):
             for i in colList:
                 total = total + float(colList[i])
             avg = total/len(colList)
-    key = f'The average of {col} is {avg}\n'
-    return json.dumps(rd.hgetall(key), indent=2)
+    return f'The average of {col} is {avg}\n'
 
 @app.route('/getInfo/column/<col>', methods=['GET'])
 def get_col_info(col):
