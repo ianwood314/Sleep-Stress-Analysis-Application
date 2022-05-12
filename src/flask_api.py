@@ -63,61 +63,93 @@ def upload_dataset():
 
 @app.route('/getInfo', methods=['GET'])
 def get_dataset_info():
-    return f"Columns in Dataset:\n  {' '.join(list(data.columns))}\n"
+    colKeys = []
+    for key in rd.keys():
+        colKeys.append(key.decode('utf-8'))
+    return f"Columns in Dataset:\n  {colKeys}\n"
 
 @app.route('/calcAvg/<col>', methods=['GET'])
 def calc_col_avg(col):
-    jobpayload = {'jobpayload': {
+    avg = 0.0
+    total = 0.0
+    for key in rd.keys():
+        if key.decode('utf-8') == col:
+            colList  = json.loads(rd.get(key).decode('utf-8'))
+            jobpayload = {'jobpayload': {
                     'jobtype': 'calcAvg',
-                    'input': col
+                    'col': key
                     }
                  }
-    add_job(jobpayload, current_time(), "NA")
-    return 'idk king'
+            jobs.add_job(jobpayload, current_time(), "NA")
+            for i in colList:
+                total = total + float(i)
+            avg = total/len(colList)
+    return f'The average of {col} is {avg}\n'
+
 
 @app.route('/getInfo/column/<col>', methods=['GET'])
 def get_col_info(col):
-      return f"{col} column in Dataset:\n  {''.join(list(data[col]))}\n"
+    colList  = {}
+    for key in rd.keys():
+        if key.decode('utf-8') == col:
+            colList  = json.loads(rd.get(key).decode('utf-8'))
+    return f"{col} column in Dataset:\n  {colList}\n"
 
 @app.route('/getInfo/all', methods=['GET'])
 def get_all_info():
-    # data.iat[0,0]
-    return f"{data}\n"
+    allList = []
+    for key in rd.keys():
+        allList.append(rd.get(key))
+    return f"{list(allList)}\n"
 
 @app.route('/getInfo/row/<row>',methods=['GET'])
 def get_row_info(row):
-    row = int(row)
-    return f"{data.iloc[row]}\n"
+    rowList = []
+    for key in rd.keys():
+        rowList.append(json.loads(rd.get(key).decode('utf-8')).get(row))
+    return f"{list(rowList)}\n"
 
 @app.route('/getInfo/<col>/highest', methods=['GET'])
 def get_col_highest(col):
-      max = 0
-      for i in range(len(data[col])):
-            if data[col].iloc[i] >= max:
-                  max  = data[col].iloc[i]
-      return f"The highest data in {col} values is {max}\n"
+    max = 0
+    for key in rd.keys():
+         if key.decode('utf-8') == col:
+             colList  = json.loads(rd.get(key).decode('utf-8'))
+             for i in range(len(colList)):
+                 if float(colList.get(str(i))) >= max:
+                     max  = float(colList.get(str(i)))
+    return f"The highest data in {col} values is {max}\n"
 
 @app.route('/getInfo/<col>/lowest', methods=['GET'])
 def get_col_lowest(col):
       min = 0
-      for i in range(len(data[col])):
-            if data[col].iloc[i] <= min:
-                  min  = data[col].iloc[i]
+      for key in rd.keys():
+         if key.decode('utf-8') == col:
+             colList  = json.loads(rd.get(key).decode('utf-8'))
+             for i in range(len(colList)):
+                 if float(colList.get(str(i))) <= min:
+                     min  = float(colList.get(str(i)))
       return f"The lowest data in {col} values is {min}\n"
+
 
 @app.route('/getInfo/<row>/<col>', methods=['GET'])
 def get_data_value(row, col):
-    row = int(row)
-    return f"The value in {row} row {col} column is {data[col].iloc[row]}\n"
+    for key in rd.keys():
+        if key.decode('utf-8') == col:
+            colList  = json.loads(rd.get(key).decode('utf-8'))
+            return f"The value in {row} row {col} column is {colList.get(row)}\n"
 
 @app.route('/getLoc/<col>/<value>', methods=['GET'])
 def get_value_position(col, value):
     position = []
-    value = float(value)
-    for i in range(len(data[col])):
-        if(value == data[col].iloc[i]):
-            position.append(i)
+    for key in rd.keys():
+        if key.decode('utf-8') == col:
+            colList  = json.loads(rd.get(key).decode('utf-8'))
+            for i in range(len(colList)):
+                if float(value) == colList.get(str(i)):
+                    position.append(i)
     return f"The position content {value} value are {list(position)}\n"
+
 
 @app.route('/calcVar/<col>', methods=['GET'])
 def cal_col_var(col):
