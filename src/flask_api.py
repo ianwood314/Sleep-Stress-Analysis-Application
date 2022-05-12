@@ -57,7 +57,8 @@ def upload_dataset():
         return jsonify(data_json)
     elif request.method == 'POST':
         rd.flushdb()
-        rd.set('data', json.dumps(data_json))
+        for item in data_json.keys():
+            rd.set(item,json.dumps(data_json[item]))
         return '---- Data Uploaded Successfully to Redis ----\n'
 
 @app.route('/getInfo', methods=['GET'])
