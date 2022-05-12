@@ -193,6 +193,16 @@ def cal_col_var(col):
                 colData.append(float(colList[i]))
     return f'The variance of {col} is {statistics.variance(colData)}\n'
 
+@app.route('/create/<sr>/<rr>/<t>/<lm>/<bo>/<rem>/<sr1>/<hr>/<sl>', methods=['POST'])
+def create_new_row(sr:float,rr:float,t:float,lm:float,bo:float,rem:float,sr1:float,hr:flo\
+at,sl:float):
+    newRow = {"sr":sr,"rr":rr,"t":t,"lm":lm,"bo":bo,"rem":rem,"sr1":sr1,"hr":hr,"sl":sl}
+    for key in rd.keys():
+      for item in newRow.keys():
+        if key.decode('utf-8') == item:
+            rd.set(item,json.dumps(newRow))
+    return f'The new row of data has been created\n'
+
 @app.route('/delete', methods=['DELETE'])
 def delete_data():
     for key in rd.keys():
