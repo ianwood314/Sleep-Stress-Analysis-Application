@@ -187,12 +187,7 @@ NOTE: for the section below, a Flask API Cluster-IP address of `10.100.224.72` i
     ~jobs -- creating a new job to do some analysis
     ~uploadData -- download data from the csv file
     ~getInfo -- return column names
-    ~getInfo/all -- return whole dataset
-    ~getInfo/row/<row> -- return data for specific row
-    ~getInfo/column/<col> -- return data for specific column
-    ~getInfo/<col>/highest -- return highest values in specific column
-    ~getInfo/<col>/lowest -- return lowest value in specific column
-    ~getInfo/<row>/<col> -- return value in specific row and column
+    ...
     ~getLoc/<col>/<value> -- return the postions of specific value in the dataset
     ~calcVar/column -- calculate the variance of specific column data values
     ```
