@@ -77,10 +77,7 @@ To see a list of all of the deployments and the pods just created, type `kubectl
 NAME                                           READY   STATUS    RESTARTS   AGE
 pod/app-prod-api-deployment-596b558c89-8qxd2   1/1     Running   0          16h
 pod/app-prod-api-deployment-596b558c89-zbrtd   1/1     Running   0          16h
-pod/app-prod-db-deployment-5d58998bfd-fq4lm    1/1     Running   0          28h
-pod/app-prod-wrk-deployment-d64c679b7-bw4zz    1/1     Running   0          16h
-pod/app-prod-wrk-deployment-d64c679b7-r8l94    1/1     Running   0          16h
-pod/py-debug-deployment-5dfcf7bdd9-ptdxz       1/1     Running   0          34d
+..
 
 NAME                           TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
 service/app-prod-api-service   ClusterIP   10.100.224.72    <none>        5000/TCP   28h
@@ -89,16 +86,12 @@ service/app-prod-db-service    ClusterIP   10.109.224.160   <none>        6379/T
 NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
 deployment.apps/app-prod-api-deployment   2/2     2            2           28h
 deployment.apps/app-prod-db-deployment    1/1     1            1           28h
-deployment.apps/app-prod-wrk-deployment   2/2     2            2           28h
-deployment.apps/py-debug-deployment       1/1     1            1           34d
+...
 
 NAME                                                 DESIRED   CURRENT   READY   AGE
 replicaset.apps/app-prod-api-deployment-596b558c89   2         2         2       16h
 replicaset.apps/app-prod-api-deployment-5cb848f558   0         0         0       28h
-replicaset.apps/app-prod-db-deployment-5d58998bfd    1         1         1       28h
-replicaset.apps/app-prod-wrk-deployment-797c747fb    0         0         0       28h
-replicaset.apps/app-prod-wrk-deployment-d64c679b7    2         2         2       16h
-replicaset.apps/py-debug-deployment-5dfcf7bdd9       1         1         1       34d
+...
 ```
 
 Make a note of the Flask API Cluster-IP address and port number as these will be necessary to interact with the application, which is described in the following section. From the example above, the Flask API Cluster-IP address would be `10.100.224.72` and the port number would be `5000`.
@@ -160,10 +153,7 @@ Next, in the same directory as `deployment-python-debug.yml`, execute the follow
 NAME                                       READY   STATUS    RESTARTS   AGE
 app-prod-api-deployment-596b558c89-8qxd2   1/1     Running   0          17h
 app-prod-api-deployment-596b558c89-zbrtd   1/1     Running   0          17h
-app-prod-db-deployment-5d58998bfd-fq4lm    1/1     Running   0          29h
-app-prod-wrk-deployment-d64c679b7-bw4zz    1/1     Running   0          17h
-app-prod-wrk-deployment-d64c679b7-r8l94    1/1     Running   0          17h
-py-debug-deployment-5dfcf7bdd9-ptdxz       1/1     Running   0          34d
+...
 ```
 
 We can see from the sample output above, the debug pod `py-debug-deployment-5dfcf7bdd9-ptdxz` has successfully been created. Now to `exec` into this pod, simply execute `kubectl exec -it <name of your pod> /bin/bash`. In the case of the example above, we would execute `kubectl exec -it py-debug-deployment-5dfcf7bdd9-ptdxz /bin/bash` and recieve the following output.
